@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>System Monitoring</title>
+    <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+        }
+        .container {
+            max-width: 1200px;
+            margin: auto;
+            background-color: rgba(255, 255, 255, 0.95);
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 8px 32px rgba(0,0,0,0.1);
+            backdrop-filter: blur(10px);
+        }
+        h1 {
+            text-align: center;
+            color: #2c3e50;
+            margin-bottom: 40px;
+            font-size: 2.5em;
+            font-weight: 300;
+        }
+        .gauges-container {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 40px;
+            margin: 40px 0;
+        }
+        .gauge-wrapper {
+            background: white;
+            border-radius: 15px;
+            padding: 20px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            border: 1px solid #e0e6ed;
+        }
+        .gauge-title {
+            text-align: center;
+            font-size: 1.2em;
+            font-weight: 600;
+            color: #34495e;
+            margin-bottom: 15px;
+        }
+        #cpu-gauge, #mem-gauge {
+            width: 100%;
+            height: 300px;
+        }
+        .stats-info {
+            text-align: center;
+            margin: 30px 0;
+            padding: 20px;
+            background: linear-gradient(135deg, #74b9ff 0%, #0984e3 100%);
+            border-radius: 10px;
+            color: white;
+            font-size: 1.1em;
+            box-shadow: 0 4px 15px rgba(116, 185, 255, 0.3);
+        }
+        .alert {
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 10px;
+            background-color: #ff6b6b;
+            color: white;
+            text-align: center;
+            font-weight: 500;
+            box-shadow: 0 4px 15px rgba(255, 107, 107, 0.3);
+        }
+        .refresh-info {
+            text-align: center;
+            color: #636e72;
+            font-size: 14px;
+            margin-top: 30px;
+            padding: 15px;
+            background: #f8f9fa;
+            border-radius: 8px;
+        }
+        .refresh-info a {
+            color: #74b9ff;
+            text-decoration: none;
+            font-weight: 600;
+        }
+        .refresh-info a:hover {
+            text-decoration: underline;
+        }
+        @media (max-width: 768px) {
+            .gauges-container {
+                grid-template-columns: 1fr;
+                gap: 20px;
+            }
+            h1 {
+                font-size: 2em;
+            }
+            .container {
+                padding: 20px;
+                margin: 10px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🖥️ System Monitoring Dashboard</h1>
+        
+        {% if message %}
+        <div class="alert">⚠️ {{ message }}</div>
+        {% endif %}
+        
+        <div class="stats-info">
+            <strong>📊 Real-time System Statistics</strong><br>
+            CPU Usage: {{ "%.1f"|format(cpu_percent if cpu_percent is defined else 0) }}% | 
+            Memory Usage: {{ "%.1f"|format(mem_percent if mem_percent is defined else 0) }}%
+        </div>
+        
+        <div class="gauges-container">
+            <div class="gauge-wrapper">
+                <div class="gauge-title">🔥 CPU Utilization</div>
+                <div id="cpu-gauge"></div>
+            </div>
+            
+            <div class="gauge-wrapper">
+                <div class="gauge-title">🧠 Memory Usage</div>
+                <div id="mem-gauge"></div>
+            </div>
+        </div>
+        
+        <div class="refresh-info">
+            🔄 Page refreshes automatically every 10 seconds | 
+            <a href="/dashboard">🔃 Manual Refresh</a>
+        </div>
+    </div>
+    
+    <script>
+        // Get values with fallback to 0
+        var cpuValue = parseFloat({{ cpu_percent|default(0) }}) || 0;
+        var memValue = parseFloat({{ mem_percent|default(0) }}) || 0;
+        
+        // CPU Gauge Configuration
+        var cpuGauge = {
+            type: "indicator",
+            mode: "gauge+number+delta",
+            value: cpuValue,
+            number: { 
+                suffix: "%",
+                font: { size: 30, color: "#2c3e50" }
+            },
+            gauge: {
+                axis: { 
+                    range: [null, 100],
+                    tickwidth: 1,
+                    tickcolor: "#2c3e50"
+                },
+                bar: { 
+                    color: cpuValue > 85 ? "#e74c3c" : cpuValue > 50 ? "#f39c12" : "#27ae60",
+                    thickness: 0.8
+                },
+                bgcolor: "#ecf0f1",
+                borderwidth: 2,
+                bordercolor: "#bdc3c7",
+                steps: [
+                    { range: [0, 50], color: "#d5f4e6" },
+                    { range: [50, 85], color: "#ffeaa7" },
+                    { range: [85, 100], color: "#fab1a0" }
+                ],
+                threshold: {
+                    line: { color: "#e74c3c", width: 4 },
+                    thickness: 0.8,
+                    value: 90
+                }
+            }
+        };
+        
+        // Memory Gauge Configuration
+        var memGauge = {
+            type: "indicator",
+            mode: "gauge+number+delta",
+            value: memValue,
+            number: { 
+                suffix: "%",
+                font: { size: 30, color: "#2c3e50" }
+            },
+            gauge: {
+                axis: { 
+                    range: [null, 100],
+                    tickwidth: 1,
+                    tickcolor: "#2c3e50"
+                },
+                bar: { 
+                    color: memValue > 85 ? "#e74c3c" : memValue > 50 ? "#f39c12" : "#3498db",
+                    thickness: 0.8
+                },
+                bgcolor: "#ecf0f1",
+                borderwidth: 2,
+                bordercolor: "#bdc3c7",
+                steps: [
+                    { range: [0, 50], color: "#d5f4e6" },
+                    { range: [50, 85], color: "#ffeaa7" },
+                    { range: [85, 100], color: "#fab1a0" }
+                ],
+                threshold: {
+                    line: { color: "#e74c3c", width: 4 },
+                    thickness: 0.8,
+                    value: 90
+                }
+            }
+        };
+        
+        // Layout configuration
+        var layout = {
+            margin: { l: 30, r: 30, t: 30, b: 30 },
+            paper_bgcolor: "rgba(0,0,0,0)",
+            plot_bgcolor: "rgba(0,0,0,0)",
+            font: { 
+                family: "Segoe UI, sans-serif",
+                size: 14,
+                color: "#2c3e50"
+            },
+            height: 280
+        };
+        
+        // Create plots
+        Plotly.newPlot('cpu-gauge', [cpuGauge], layout, {
+            displayModeBar: false,
+            responsive: true
+        });
+        
+        Plotly.newPlot('mem-gauge', [memGauge], layout, {
+            displayModeBar: false,
+            responsive: true
+        });
+        
+        // Auto-refresh every 10 seconds
+        setTimeout(function() {
+            location.reload();
+        }, 10000);
+        
+        // Add loading animation
+        console.log('System Monitoring Dashboard loaded successfully!');
+        console.log('CPU:', cpuValue + '%', 'Memory:', memValue + '%');
+    </script>
+</body>
+</html>
