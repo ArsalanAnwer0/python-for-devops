@@ -6,10 +6,14 @@ A comprehensive Python learning repository for DevOps engineers, covering fundam
 
 ```
 python-for-devops/
-├── beginner/           # Python fundamentals for DevOps
-├── intermediate/       # Advanced DevOps automation
-├── expert/            # Complex DevOps scenarios
-└── README.md          # This file
+├── beginner/                    # Python fundamentals for DevOps
+│   ├── OOP/                    # Object-Oriented Programming concepts
+│   ├── activities/             # Hands-on practice exercises
+│   ├── Fake_News_Headline_Generator/  # Project-based learning
+│   └── core concepts files     # Basic Python syntax and concepts
+├── intermediate/               # Advanced DevOps automation
+├── expert/                    # Complex DevOps scenarios
+└── README.md                  # This file
 ```
 
 ## 🎯 Learning Path
@@ -19,12 +23,44 @@ python-for-devops/
 
 Master Python fundamentals essential for DevOps work:
 
+#### Core Python Concepts
+- **`comments.py`** - Documentation and code commenting best practices
+- **`data_types.py`** - Variables, strings, numbers, booleans
+- **`operators.py`** - Arithmetic, comparison, logical, and assignment operators
+- **`control_statements.py`** - If/else, loops, and flow control
+- **`sample.py`** - Basic Python syntax examples
 - **`concepts.py`** - Variables, data types, operators, and comments
 - **`conditionals.py`** - Control flow and decision making
 - **`hello.py`** - Basic input/output and string manipulation
 - **`input_output.py`** - User interaction and f-string formatting
 - **`tasks.py`** - Cross-platform OS detection and system operations
 - **`data_structures.py`** - Lists, dictionaries, tuples for configuration management
+
+#### Object-Oriented Programming (`/OOP/`)
+- **`methods.py`** - Instance, class, and static methods
+- **`inheritance.py`** - Class inheritance and method overriding
+- **`polymorphism.py`** - Method overloading and polymorphic behavior
+- **`abstraction.py`** - Abstract classes and methods
+- **`composition.py`** - Object composition patterns
+- **`aggregation.py`** - Object aggregation relationships
+- **`duck_typing.py`** - Dynamic typing and duck typing concepts
+- **`magic_method.py`** - Special methods and operator overloading
+- **`nested_class.py`** - Inner classes and nested structures
+- **`property_decorator.py`** - Property decorators and getters/setters
+- **`static.py`** - Static methods and class variables
+- **`super.py`** - Super keyword and method resolution order
+
+#### Practical Activities (`/activities/`)
+**16 hands-on exercises** covering:
+- **`act_one.py` to `act_sixteen.py`** - Progressive coding exercises
+- **`for_act_sixteen.py`** - Advanced looping exercises
+- **`youtube.db`** - Database interaction examples
+
+#### Project-Based Learning
+- **`Fake_News_Headline_Generator/`** - Complete project demonstrating:
+  - File handling and data processing
+  - String manipulation and text generation
+  - Project structure and organization
 
 ### 🚀 Intermediate Level
 **Location:** `/intermediate/`
@@ -46,13 +82,15 @@ Practical DevOps automation and monitoring:
 
 ## 🛠️ Technologies & Libraries
 
-- **Core Python**: subprocess, os, platform, datetime
+- **Core Python**: subprocess, os, platform, datetime, sqlite3
+- **Object-Oriented Programming**: Classes, inheritance, polymorphism, abstraction
 - **Web Framework**: Flask for monitoring dashboards
 - **Cloud Services**: AWS boto3 for S3 operations
 - **System Monitoring**: psutil for system metrics
 - **Task Scheduling**: schedule library for automation
 - **Containerization**: Docker integration
 - **API Integration**: requests library
+- **Database**: SQLite for data storage
 - **Frontend**: HTML5, CSS3, JavaScript with Plotly.js
 
 ## ⚙️ Prerequisites
@@ -73,25 +111,67 @@ git clone https://github.com/ArsalanAnwer0/python-for-devops.git
 cd python-for-devops
 ```
 
-2. **Start with beginner concepts:**
+2. **Start with core Python concepts:**
 ```bash
 cd beginner
-python concepts.py
+python data_types.py
+python operators.py
+python control_statements.py
 ```
 
-3. **Try the monitoring dashboard:**
+3. **Learn Object-Oriented Programming:**
+```bash
+cd beginner/OOP
+python methods.py
+python inheritance.py
+python polymorphism.py
+```
+
+4. **Practice with activities:**
+```bash
+cd beginner/activities
+python act_one.py
+# Continue through act_sixteen.py
+```
+
+5. **Try the monitoring dashboard:**
 ```bash
 cd intermediate/monitoring_app
 python app.py
 # Visit: http://localhost:5000/dashboard
 ```
 
-4. **Test AWS S3 operations:**
+6. **Test AWS S3 operations:**
 ```bash
 cd intermediate
 # Configure AWS credentials first
 python aws_s3.py
 ```
+
+## 📚 Learning Progression
+
+### Phase 1: Python Fundamentals (Beginner)
+1. **Basic Syntax** → `data_types.py`, `operators.py`, `comments.py`
+2. **Control Flow** → `control_statements.py`, `conditionals.py`
+3. **Data Structures** → `data_structures.py`
+4. **Functions & Input/Output** → `hello.py`, `input_output.py`
+
+### Phase 2: Object-Oriented Programming
+1. **Basic OOP** → `methods.py`, `inheritance.py`
+2. **Advanced OOP** → `polymorphism.py`, `abstraction.py`
+3. **Design Patterns** → `composition.py`, `aggregation.py`
+4. **Python-Specific** → `duck_typing.py`, `magic_method.py`
+
+### Phase 3: Hands-on Practice
+1. **Activities** → Complete all 16 activities in sequence
+2. **Project Work** → Fake News Headline Generator
+3. **System Integration** → `tasks.py` for OS operations
+
+### Phase 4: DevOps Applications (Intermediate)
+1. **System Monitoring** → `sys_utils.py`, monitoring app
+2. **Cloud Operations** → `aws_s3.py`
+3. **Automation** → `backup.py`, `devops_commands.py`
+4. **Containerization** → `docker_run.py`
 
 ## 📊 Monitoring Dashboard Features
 
@@ -139,12 +219,24 @@ from intermediate.aws_s3 import upload_to_bucket
 upload_to_bucket(s3, "backup.tar.gz", "/local/file", "my-bucket")
 ```
 
+## 🎯 Practice Exercises
+
+The `/beginner/activities/` folder contains 16 progressive exercises:
+- **Activities 1-4**: Basic syntax and variables
+- **Activities 5-8**: Control structures and loops
+- **Activities 9-12**: Functions and data structures
+- **Activities 13-16**: File handling and database operations
+
+Each activity builds upon previous concepts, providing hands-on experience with Python fundamentals.
+
 ## 🌟 Key Features
 
+- **Comprehensive Coverage**: From basic syntax to advanced OOP concepts
 - **Cross-platform Compatibility**: Works on Windows, macOS, and Linux
-- **Error Handling**: Robust exception management
-- **Real-world Scenarios**: Practical DevOps automation examples
 - **Progressive Learning**: Structured from basics to advanced
+- **Hands-on Practice**: 16+ practical exercises and activities
+- **Real-world Projects**: Complete applications and tools
+- **Error Handling**: Robust exception management
 - **Production Ready**: Code suitable for production environments
 - **Documentation**: Well-commented code with clear explanations
 
@@ -166,6 +258,7 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 - **Flask Documentation**: https://flask.palletsprojects.com/
 - **AWS boto3 Documentation**: https://boto3.amazonaws.com/v1/documentation/api/latest/index.html
 - **Docker Documentation**: https://docs.docker.com/
+- **SQLite Documentation**: https://docs.python.org/3/library/sqlite3.html
 
 ## 📞 Support
 
@@ -173,7 +266,8 @@ If you have questions or need help:
 
 1. Check the code comments in each file
 2. Review the examples in the beginner section
-3. Open an issue on GitHub
-4. Refer to the learning resources above
+3. Try the hands-on activities for practice
+4. Open an issue on GitHub
+5. Refer to the learning resources above
 
 ---
